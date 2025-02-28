@@ -58,6 +58,7 @@ app.get('/api-docs', (req, res) => {
   });
 });
 
+app.use('/api/auth', authRoutes);
 // Routes
 // app.use('/api/tasks', taskRoutes);
 // app.use('/api/emails', emailRoutes);
