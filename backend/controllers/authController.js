@@ -1,7 +1,7 @@
-import Token from '../models/Token.js';
 import { oAuth2Client } from '../utils/oauth.js';
 import { CLIENT_ID } from '../config/constants.js';
 import { errorHandler } from '../utils/errorHandler.js';
+import { getDB } from '../config/arango.js';
 
 export const googleAuth = async (req, res) => {
     try {
@@ -24,11 +24,15 @@ export const googleAuth = async (req, res) => {
       const accessToken = tokens.access_token;
       const refreshToken = tokens.refresh_token;
 
-    // Store the access token, refresh token, and userId in the database
-      await Token.findOneAndUpdate(
-        { userId },
-        { accessToken , refreshToken },
-        { upsert: true  }
+      // Getting Collection
+      const db = getDB;
+      const Token = db._collection('tokens');
+
+      // Store the access token, refresh token, and userId in the database
+      await Token.update(
+        { userId: userId }, // Match condition
+        { userId: userId, accessToken: accessToken, refreshToken: refreshToken }, // Update data
+        { upsert: true } // Enable upsert behavior
       );
     
       return res.status(200).json({ 

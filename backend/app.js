@@ -5,6 +5,7 @@ import compression from 'compression';
 import { rateLimit } from 'express-rate-limit';
 // import taskRoutes from './routes/taskRoutes.js';
 // import emailRoutes from './routes/emailRoutes.js';
+import authRoutes from './routes/auth.js';
 import { logger , stream } from './utils/logger.js';
 import { checkDatabaseHealth } from './config/arango.js';
 import dotenv from 'dotenv';
@@ -58,7 +59,7 @@ app.get('/api-docs', (req, res) => {
   });
 });
 
-// app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 // Routes
 // app.use('/api/tasks', taskRoutes);
 // app.use('/api/emails', emailRoutes);
